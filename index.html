@@ -2,26 +2,42 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kuchupuchu ❤️</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+}
 
 body{
-  margin:0;
   font-family:Arial,sans-serif;
   background:linear-gradient(135deg,#fff0f5,#ffd6e5);
   color:#421827;
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 
-.s{display:none;width:100%}
-.s.on{display:flex;justify-content:center}
+.s{
+  display:none;
+  width:100%;
+  min-height:100vh;
+  padding:30px 15px;
+  justify-content:center;
+  align-items:center;
+}
+
+.s.on{
+  display:flex;
+}
 
 .card{
   width:min(90%,430px);
@@ -29,7 +45,8 @@ body{
   border-radius:28px;
   padding:35px 22px;
   text-align:center;
-  box-shadow:0 20px 50px #d98ba655;
+  box-shadow:0 20px 50px rgba(217,139,166,.35);
+  margin:auto;
 }
 
 .heart{
@@ -39,12 +56,14 @@ body{
 
 h1{
   font-size:27px;
+  line-height:1.25;
   margin:15px 0 25px;
 }
 
 .buttons{
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:20px;
   position:relative;
   min-height:60px;
@@ -59,11 +78,15 @@ h1{
   font-size:17px;
   font-weight:bold;
   cursor:pointer;
+  box-shadow:0 5px 12px rgba(237,23,96,.25);
+}
+
+.btn:active{
+  transform:scale(.95);
 }
 
 .no{
   background:#555;
-  position:relative;
 }
 
 textarea{
@@ -75,6 +98,11 @@ textarea{
   font-size:16px;
   resize:none;
   outline:none;
+  font-family:Arial,sans-serif;
+}
+
+textarea:focus{
+  box-shadow:0 0 0 3px rgba(237,23,96,.12);
 }
 
 .answer{
@@ -101,181 +129,414 @@ textarea{
 
 .kiss{
   position:fixed;
-  font-size:35px;
+  font-size:38px;
   pointer-events:none;
+  z-index:999;
   animation:pop .5s ease;
 }
 
 @keyframes pop{
-  from{transform:scale(0);opacity:0}
-  to{transform:scale(1);opacity:1}
+  0%{
+    transform:scale(0) rotate(-20deg);
+    opacity:0;
+  }
+  70%{
+    transform:scale(1.2) rotate(10deg);
+    opacity:1;
+  }
+  100%{
+    transform:scale(1) rotate(0);
+    opacity:1;
+  }
 }
 
 .secret{
   display:none;
   margin-top:25px;
-  padding:20px;
+  padding:22px;
   border-radius:20px;
   background:#fff1f6;
   font-size:17px;
   line-height:1.6;
+  border:2px dashed #ed1760;
+  animation:fadeIn .7s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(15px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.secret-title{
+  font-size:25px;
+  font-weight:bold;
+  color:#ed1760;
+  margin-bottom:15px;
 }
 
 @media(max-width:500px){
-  h1{font-size:23px}
+
+  .s{
+    padding:25px 12px;
+    align-items:flex-start;
+  }
+
+  .card{
+    width:94%;
+    margin:20px auto;
+    padding:30px 18px;
+  }
+
+  h1{
+    font-size:23px;
+  }
+
+  .heart{
+    font-size:55px;
+  }
+
+  .face{
+    width:200px;
+  }
+
+  .buttons{
+    gap:12px;
+  }
+
+  .btn{
+    padding:13px 22px;
+    font-size:16px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 -->
+<!-- ================= PAGE 1 ================= -->
+
 <section class="s on" id="s0">
-<div class="card">
-<div class="heart">💖</div>
-<h1>Kuchupuchu, do you love me? 🥺</h1>
 
-<div class="buttons">
-<button class="btn" onclick="go(1)">YES ❤️</button>
-<button class="btn no" id="no1" onclick="runNo(1)">NO 😏</button>
-</div>
-</div>
+  <div class="card">
+
+    <div class="heart">💖</div>
+
+    <h1>
+      Kuchupuchu, do you love me? 🥺
+    </h1>
+
+    <div class="buttons">
+
+      <button class="btn" onclick="go(1)">
+        YES ❤️
+      </button>
+
+      <button
+        class="btn no"
+        id="no1"
+        onclick="runNo()">
+        NO 😏
+      </button>
+
+    </div>
+
+  </div>
+
 </section>
 
 
-<!-- PAGE 2 -->
+<!-- ================= PAGE 2 ================= -->
+
 <section class="s" id="s1">
-<div class="card">
-<div class="heart">😌</div>
-<h1>Kuchupuchu, aap ghussa ho?</h1>
 
-<div class="buttons">
-<button class="btn" id="yes2" onclick="go(2)">YES 😤</button>
-<button class="btn" onclick="go(2)">NO 😇</button>
-</div>
-</div>
+  <div class="card">
+
+    <div class="heart">😌</div>
+
+    <h1>
+      Kuchupuchu, aap ghussa ho?
+    </h1>
+
+    <div class="buttons">
+
+      <button
+        class="btn"
+        id="yes2"
+        onclick="runYes2()">
+        YES 😤
+      </button>
+
+      <button
+        class="btn"
+        onclick="go(2)">
+        NO 😇
+      </button>
+
+    </div>
+
+  </div>
+
 </section>
 
 
-<!-- PAGE 3 -->
+<!-- ================= PAGE 3 ================= -->
+
 <section class="s" id="s2">
-<div class="card">
-<div class="heart">💗</div>
 
-<h1>Kuchupuchu, aap mujhse kitna pyaar karte ho? ❤️</h1>
+  <div class="card">
 
-<textarea
-id="loveInput"
-placeholder="Yahan apna answer likho..."
-oninput="showLoveAnswer()"></textarea>
+    <div class="heart">💗</div>
 
-<div id="loveAnswer" class="answer">
-Sabse zyada! ❤️
-</div>
+    <h1>
+      Kuchupuchu, aap mujhse kitna pyaar karte ho? ❤️
+    </h1>
 
-<button class="btn" onclick="go(3)">
-Aage chalo 💕
-</button>
+    <textarea
+      id="loveInput"
+      placeholder="Yahan apna answer likho..."
+      oninput="showLoveAnswer()">
+    </textarea>
 
-<div class="sub">
-Kuch bhi likho... answer toh mujhe pata hai 😌
-</div>
-</div>
+    <div
+      id="loveAnswer"
+      class="answer">
+      Sabse zyada! ❤️
+    </div>
+
+    <button
+      class="btn"
+      onclick="go(3)">
+      Aage chalo 💕
+    </button>
+
+    <div class="sub">
+      Kuch bhi likho... answer toh mujhe pata hai 😌
+    </div>
+
+  </div>
+
 </section>
 
 
-<!-- PAGE 4 -->
+<!-- ================= PAGE 4 ================= -->
+
 <section class="s" id="s3">
-<div class="card">
 
-<div class="heart">🥺</div>
+  <div class="card">
 
-<h1>
-Kuchupuchu, aap mujhpar ghussa ho toh ghussa utarlo ❤️
-</h1>
+    <div class="heart">🥺</div>
 
-<img src="praveen.png" class="face">
+    <h1>
+      Kuchupuchu, aap mujhpar ghussa ho
+      toh ghussa utarlo ❤️
+    </h1>
 
-<div class="buttons">
-<button class="btn" onclick="action('kiss')">
-💋 Kiss
-</button>
+    <img
+      src="praveen.png"
+      class="face"
+      alt="Praveen">
 
-<button class="btn" onclick="action('slap')">
-👋 Slap
-</button>
-</div>
+    <div class="buttons">
 
-<div id="secret" class="secret">
-💌 <b>Secret Letter</b><br><br>
+      <button
+        class="btn"
+        onclick="action('kiss')">
+        💋 Kiss
+      </button>
 
-I'm sorry, I really can't recall what mistake I've done
-and I'm also sure I've done something! 😭
+      <button
+        class="btn"
+        onclick="action('slap')">
+        👋 Slap
+      </button>
 
-Sorry for irritating and making you always angry!
+    </div>
 
-And I also admit my quantity of time is available,
-but quality time is missing.
+    <div
+      id="tapMessage"
+      class="sub">
+      Jo karna hai karo... 😭😂
+    </div>
 
-I will work on it. ❤️
+    <div
+      id="secret"
+      class="secret">
 
-Thank you for staying with me!
+      <div class="secret-title">
+        💌 Secret Letter 💌
+      </div>
 
-<b>I love you Kuchupuchu ❤️</b>
-</div>
+      I'm sorry, I really can't recall
+      what mistake I've done and I'm also
+      sure I've done something! 😭
 
-</div>
+      <br><br>
+
+      Sorry for irritating and making you
+      always angry!
+
+      <br><br>
+
+      And I also admit my quantity of time
+      is available, but quality time is missing.
+
+      <br><br>
+
+      I will work on it. ❤️
+
+      <br><br>
+
+      Thank you for staying with me!
+
+      <br><br>
+
+      <b>
+        I love you Kuchupuchu ❤️
+      </b>
+
+    </div>
+
+  </div>
+
 </section>
 
 
 <script>
 
+/* ================= NAVIGATION ================= */
+
 function go(n){
-  document.querySelectorAll(".s").forEach(function(x){
-    x.classList.remove("on");
+
+  document.querySelectorAll(".s").forEach(function(section){
+    section.classList.remove("on");
   });
 
-  document.getElementById("s"+n).classList.add("on");
+  document.getElementById("s" + n).classList.add("on");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
 
-function showLoveAnswer(){
-  document.getElementById("loveAnswer").style.display="block";
-}
-
+/* ================= PAGE 1 ================= */
 
 function runNo(){
-  const b=document.getElementById("no1");
 
-  b.style.position="fixed";
-  b.style.left=(10+Math.random()*75)+"vw";
-  b.style.top=(10+Math.random()*75)+"vh";
+  const b = document.getElementById("no1");
+
+  b.style.position = "fixed";
+
+  const maxX = window.innerWidth - b.offsetWidth - 15;
+  const maxY = window.innerHeight - b.offsetHeight - 15;
+
+  const x = Math.max(10, Math.random() * maxX);
+  const y = Math.max(10, Math.random() * maxY);
+
+  b.style.left = x + "px";
+  b.style.top = y + "px";
 }
 
 
-let taps=0;
+/* ================= PAGE 2 ================= */
+
+function runYes2(){
+
+  const b = document.getElementById("yes2");
+
+  b.style.position = "fixed";
+
+  const maxX = window.innerWidth - b.offsetWidth - 15;
+  const maxY = window.innerHeight - b.offsetHeight - 15;
+
+  const x = Math.max(10, Math.random() * maxX);
+  const y = Math.max(10, Math.random() * maxY);
+
+  b.style.left = x + "px";
+  b.style.top = y + "px";
+}
+
+
+/* ================= PAGE 3 ================= */
+
+function showLoveAnswer(){
+
+  document.getElementById("loveAnswer").style.display = "block";
+
+}
+
+
+/* ================= PAGE 4 ================= */
+
+let taps = 0;
 
 function action(type){
 
   taps++;
 
-  const mark=document.createElement("div");
+  /*
+    Both Kiss and Slap create lipstick marks.
+    Because obviously even after a slap,
+    Kuchupuchu is still getting kissed. 😂
+  */
 
-  mark.className="kiss";
-  mark.innerHTML= type==="kiss" ? "💋" : "💋";
+  const mark = document.createElement("div");
 
-  mark.style.left=(25+Math.random()*50)+"vw";
-  mark.style.top=(25+Math.random()*50)+"vh";
+  mark.className = "kiss";
+  mark.innerHTML = "💋";
+
+  const x = 25 + Math.random() * 50;
+  const y = 20 + Math.random() * 55;
+
+  mark.style.left = x + "vw";
+  mark.style.top = y + "vh";
 
   document.body.appendChild(mark);
 
-  setTimeout(()=>{
+  setTimeout(function(){
     mark.remove();
   },2500);
 
-  if(taps>=4){
-    document.getElementById("secret").style.display="block";
+
+  /* Little reactions */
+
+  const message = document.getElementById("tapMessage");
+
+  if(taps === 1){
+    message.innerHTML =
+      "Acha ji... pehla attack! 😂";
   }
+
+  if(taps === 2){
+    message.innerHTML =
+      "Kuchupuchu ruk jao 😭💋";
+  }
+
+  if(taps === 3){
+    message.innerHTML =
+      "Bas bas... itna bhi ghussa? 😂";
+  }
+
+  if(taps === 4){
+    message.innerHTML =
+      "Okay okay... Secret Letter unlock! 💌";
+
+    document.getElementById("secret").style.display =
+      "block";
+  }
+
+  if(taps > 4){
+    message.innerHTML =
+      "Ab toh letter mil gaya... I love you ❤️";
+  }
+
 }
 
 </script>
