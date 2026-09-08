@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
 <title>Kuchupuchu ❤️</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -16,7 +15,7 @@ body {
     margin: 0;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #fff0f6, #ffdce8);
+    background: linear-gradient(135deg, #fff0f6, #ffd6e5);
     color: #421827;
     overflow: hidden;
 }
@@ -36,10 +35,10 @@ body {
 
 .card {
     width: min(430px, 100%);
-    background: rgba(255,255,255,0.96);
+    background: rgba(255,255,255,0.97);
     border-radius: 28px;
     padding: 30px 22px;
-    box-shadow: 0 18px 50px rgba(139,35,64,0.2);
+    box-shadow: 0 18px 50px rgba(139,35,64,0.20);
 }
 
 .heart {
@@ -76,7 +75,7 @@ h1 {
 }
 
 .btn:active {
-    transform: scale(0.94);
+    transform: scale(0.93);
 }
 
 .yes {
@@ -92,12 +91,6 @@ h1 {
 .run {
     position: fixed !important;
     z-index: 100;
-}
-
-.small {
-    font-size: 13px;
-    color: #986577;
-    margin-top: 18px;
 }
 
 textarea {
@@ -116,69 +109,121 @@ textarea:focus {
     border-color: #e91e63;
 }
 
-.answer {
-    font-size: 24px;
+.liveAnswer {
+    margin-top: 15px;
+    min-height: 34px;
+    font-size: 25px;
     font-weight: bold;
     color: #e91e63;
-    margin-top: 16px;
-    min-height: 30px;
+}
+
+.faceArea {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 18px;
 }
 
 .face {
-    width: 190px;
-    height: 190px;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
     border-radius: 50%;
     border: 7px solid white;
-    box-shadow: 0 10px 30px rgba(132,34,60,0.2);
+    box-shadow: 0 10px 30px rgba(132,34,60,0.25);
 }
 
-.secret {
+.kissMark {
+    position: absolute;
+    font-size: 32px;
+    pointer-events: none;
+    animation: pop 0.25s ease-out;
+    transform: rotate(
+        calc(-15deg + 30deg * var(--rotation))
+    );
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+
+    70% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.tapCount {
+    margin-top: 15px;
+    color: #986577;
+    font-size: 14px;
+}
+
+.secretButton {
     display: none;
-    margin-top: 22px;
-    background: #fff2a2;
-    padding: 18px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.letter {
+    display: none;
+    text-align: left;
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff5b8;
     border-radius: 18px;
-    line-height: 1.55;
+    line-height: 1.65;
+    box-shadow: inset 0 0 0 1px rgba(150,100,0,0.1);
+}
+
+.letterTitle {
+    text-align: center;
+    font-size: 24px;
     font-weight: bold;
+    margin-bottom: 15px;
 }
 
-.language-buttons {
-    display: flex;
-    gap: 10px;
+.small {
+    font-size: 13px;
+    color: #986577;
+    margin-top: 18px;
 }
-
-.language-buttons .btn {
-    flex: 1;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- LANGUAGE -->
+
+<!-- SCREEN 0 -->
 <section class="screen active" id="screen0">
 
     <div class="card">
 
-        <div class="heart">💗</div>
+        <div class="heart">🥺</div>
 
-        <h1>Kuchupuchu ❤️</h1>
+        <h1>Kuchupuchu ❤️<br>Are you ready?</h1>
 
         <div class="sub">
-            Pehle language choose karo…<br>
-            warna Praveen complaint karega 😌
+            Ek chhota sa important sawaal hai... 😌
         </div>
 
-        <div class="language-buttons">
+        <div class="buttons">
 
-            <button class="btn yes" onclick="chooseLanguage('hi')">
-                हिन्दी 🇮🇳
+            <button
+                class="btn yes"
+                onclick="nextScreen(1)">
+                YES ❤️
             </button>
 
-            <button class="btn no" onclick="chooseLanguage('hinglish')">
-                Hinglish 😎
+            <button
+                class="btn no"
+                id="readyNo"
+                onclick="runButton('readyNo')">
+                NO 😒
             </button>
 
         </div>
@@ -188,25 +233,30 @@ textarea:focus {
 </section>
 
 
-<!-- QUESTION 1 -->
+<!-- SCREEN 1 -->
 <section class="screen" id="screen1">
 
     <div class="card">
 
         <div class="heart">🥺</div>
 
-        <h1 id="question1"></h1>
+        <h1>
+            Kuchupuchu,<br>
+            do you love me? ❤️
+        </h1>
 
         <div class="buttons">
 
-            <button class="btn yes" onclick="nextScreen(2)">
+            <button
+                class="btn yes"
+                onclick="nextScreen(2)">
                 YES ❤️
             </button>
 
             <button
                 class="btn no"
-                id="noButton"
-                onclick="runButton('noButton')">
+                id="loveNo"
+                onclick="runButton('loveNo')">
                 NO 😒
             </button>
 
@@ -221,21 +271,24 @@ textarea:focus {
 </section>
 
 
-<!-- QUESTION 2 -->
+<!-- SCREEN 2 -->
 <section class="screen" id="screen2">
 
     <div class="card">
 
         <div class="heart">😏</div>
 
-        <h1 id="question2"></h1>
+        <h1>
+            Kuchupuchu,<br>
+            aap ghussa ho? 😤
+        </h1>
 
         <div class="buttons">
 
             <button
                 class="btn yes"
-                id="yesButton"
-                onclick="runButton('yesButton')">
+                id="angryYes"
+                onclick="runButton('angryYes')">
                 YES 😤
             </button>
 
@@ -252,30 +305,30 @@ textarea:focus {
 </section>
 
 
-<!-- QUESTION 3 -->
+<!-- SCREEN 3 -->
 <section class="screen" id="screen3">
 
     <div class="card">
 
         <div class="heart">💘</div>
 
-        <h1 id="question3"></h1>
+        <h1>
+            Kuchupuchu,<br>
+            aap mujhse kitna pyaar karte ho? ❤️
+        </h1>
 
         <textarea
             id="loveText"
-            placeholder="Yahan apna answer likho...">
+            placeholder="Yahan kuch bhi likho...">
         </textarea>
 
-        <button
-            class="btn yes"
-            style="margin-top:14px"
-            onclick="submitLove()">
-            Submit ❤️
-        </button>
-
         <div
-            class="answer"
-            id="loveAnswer">
+            class="liveAnswer"
+            id="liveAnswer">
+        </div>
+
+        <div class="small">
+            Kuch bhi likho... answer toh mujhe pata hai 😌
         </div>
 
     </div>
@@ -283,41 +336,99 @@ textarea:focus {
 </section>
 
 
-<!-- FINAL -->
+<!-- SCREEN 4 -->
 <section class="screen" id="screen4">
 
     <div class="card">
 
-        <img
-            class="face"
-            src="praveen.png"
-            alt="Praveen">
+        <div class="faceArea" id="faceArea">
 
-        <h1 id="question4"></h1>
+            <img
+                class="face"
+                src="praveen.png"
+                alt="Praveen">
+
+        </div>
+
+        <h1>
+            Kuchupuchu aap mujhpe ghussa ho<br>
+            toh ghussa utarlo 😭
+        </h1>
 
         <div class="sub">
-            Ab faisla aapke haath mein hai… 😭
+            Jo mann kare karo... 😭😂
         </div>
 
         <div class="buttons">
 
             <button
                 class="btn yes"
-                onclick="finish()">
+                onclick="tapFace('kiss')">
                 💋 Kiss
             </button>
 
             <button
                 class="btn no"
-                onclick="finish()">
+                onclick="tapFace('slap')">
                 👋 Slap
             </button>
 
         </div>
 
         <div
-            class="secret"
-            id="secretMessage">
+            class="tapCount"
+            id="tapCount">
+            Abhi tak 0 baar maara/pyaar kiya 😭
+        </div>
+
+        <button
+            class="btn yes secretButton"
+            id="secretButton"
+            onclick="openLetter()">
+            💌 Open Secret Letter
+        </button>
+
+        <div
+            class="letter"
+            id="letter">
+
+            <div class="letterTitle">
+                💌 For My Kuchupuchu
+            </div>
+
+            I'm sorry. ❤️
+
+            <br><br>
+
+            I really can't recall what mistake I've done,
+            and I'm also sure I've done something! 😭
+
+            <br><br>
+
+            Sorry for irritating you and making you always angry.
+
+            <br><br>
+
+            I also admit that my quantity of time is available,
+            but quality time is missing. I know that,
+            and I will genuinely work on it.
+
+            <br><br>
+
+            Thank you for staying with me,
+            tolerating me,
+            and still being my Kuchupuchu. ❤️
+
+            <br><br>
+
+            I love you, Kuchupuchu. ❤️
+
+            <br><br>
+
+            <strong>
+                — Praveen
+            </strong>
+
         </div>
 
     </div>
@@ -327,51 +438,10 @@ textarea:focus {
 
 <script>
 
-let language = "hinglish";
+let taps = 0;
 
 
-function chooseLanguage(selectedLanguage) {
-
-    language = selectedLanguage;
-
-    if (language === "hi") {
-
-        document.getElementById("question1").textContent =
-            "कुचुपुचु, क्या आप मुझसे प्यार करते हो?";
-
-        document.getElementById("question2").textContent =
-            "कुचुपुचु, क्या आप मुझसे गुस्सा हो?";
-
-        document.getElementById("question3").textContent =
-            "कुचुपुचु, आप मुझसे कितना प्यार करते हो?";
-
-        document.getElementById("question4").textContent =
-            "कुचुपुचु, आप मुझपे गुस्सा हो तो गुस्सा उतार लो 😭";
-
-        document.getElementById("loveText").placeholder =
-            "यहाँ अपना जवाब लिखो…";
-
-    } else {
-
-        document.getElementById("question1").textContent =
-            "Kuchupuchu, do you love me? ❤️";
-
-        document.getElementById("question2").textContent =
-            "Kuchupuchu, aap ghussa ho? 😤";
-
-        document.getElementById("question3").textContent =
-            "Kuchupuchu, aap mujhse kitna pyaar karte ho? ❤️";
-
-        document.getElementById("question4").textContent =
-            "Kuchupuchu aap mujhpe ghussa ho toh ghussa utarlo 😭";
-
-        document.getElementById("loveText").placeholder =
-            "Yahan apna answer likho…";
-    }
-
-    nextScreen(1);
-}
-
+/* SCREEN CHANGE */
 
 function nextScreen(number) {
 
@@ -388,74 +458,134 @@ function nextScreen(number) {
 }
 
 
+/* RUNNING BUTTON */
+
 function runButton(buttonId) {
 
-    const button = document.getElementById(buttonId);
+    const button =
+        document.getElementById(buttonId);
 
     button.classList.add("run");
 
-    const maxX = window.innerWidth - button.offsetWidth - 20;
-    const maxY = window.innerHeight - button.offsetHeight - 20;
+    const maxX =
+        window.innerWidth -
+        button.offsetWidth -
+        20;
 
-    const randomX = Math.max(
-        10,
-        Math.random() * maxX
-    );
+    const maxY =
+        window.innerHeight -
+        button.offsetHeight -
+        20;
 
-    const randomY = Math.max(
-        10,
-        Math.random() * maxY
-    );
+    const x =
+        Math.max(
+            10,
+            Math.random() * maxX
+        );
 
-    button.style.left = randomX + "px";
-    button.style.top = randomY + "px";
+    const y =
+        Math.max(
+            10,
+            Math.random() * maxY
+        );
+
+    button.style.left = x + "px";
+    button.style.top = y + "px";
 }
 
 
-function submitLove() {
+/* LIVE LOVE ANSWER */
 
-    const answerBox =
-        document.getElementById("loveAnswer");
+const loveText =
+    document.getElementById("loveText");
 
-    if (language === "hi") {
+const liveAnswer =
+    document.getElementById("liveAnswer");
 
-        answerBox.textContent =
-            "सबसे ज़्यादा! ❤️";
+loveText.addEventListener("input", function() {
+
+    if (loveText.value.trim().length > 0) {
+
+        liveAnswer.textContent =
+            "Sabse zyada! ❤️";
 
     } else {
 
-        answerBox.textContent =
-            "Sabse zyada! ❤️";
+        liveAnswer.textContent = "";
 
     }
+
+});
+
+
+/* KISS / SLAP */
+
+function tapFace(type) {
+
+    taps++;
+
+    const faceArea =
+        document.getElementById("faceArea");
+
+    const mark =
+        document.createElement("div");
+
+    mark.className = "kissMark";
+
+    mark.textContent =
+        type === "kiss" ? "💋" : "💋";
+
+    mark.style.left =
+        (25 + Math.random() * 145) + "px";
+
+    mark.style.top =
+        (20 + Math.random() * 150) + "px";
+
+    mark.style.setProperty(
+        "--rotation",
+        Math.random()
+    );
+
+    faceArea.appendChild(mark);
+
+
+    document.getElementById("tapCount").textContent =
+        "Abhi tak " + taps +
+        " baar maara/pyaar kiya 😭";
+
+
+    if (taps >= 5) {
+
+        document
+            .getElementById("secretButton")
+            .style.display = "block";
+
+    }
+
+}
+
+
+/* SECRET LETTER */
+
+function openLetter() {
+
+    const letter =
+        document.getElementById("letter");
+
+    letter.style.display = "block";
+
+    document
+        .getElementById("secretButton")
+        .style.display = "none";
 
     setTimeout(function() {
 
-        nextScreen(4);
+        letter.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
 
-    }, 1500);
-
-}
-
-
-function finish() {
-
-    const message =
-        document.getElementById("secretMessage");
-
-    message.style.display = "block";
-
-    if (language === "hi") {
-
-        message.textContent =
-            "मुझे सच में याद नहीं कि मैंने क्या गलती की है… और मुझे पूरा यकीन है कि कुछ न कुछ गलती मैंने की ही है 😭 Sorry. तुम्हें irritate करने और हमेशा गुस्सा दिलाने के लिए sorry. मैं मानता हूँ कि मेरे पास quantity of time है, लेकिन quality time missing है — इस पर सच में काम करूँगा. मेरे साथ रहने के लिए thank you. I love you, Kuchupuchu ❤️";
-
-    } else {
-
-        message.textContent =
-            "I'm sorry, I really can't recall what mistake I've done and I'm also sure I've done something! 😭 Sorry for irritating you and making you always angry! I also admit my quantity of time is available but quality time is missing — I will work on it. Thank you for staying with me! I love you, Kuchupuchu ❤️";
-
-    }
+    }, 100);
 
 }
 
