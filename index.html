@@ -1,592 +1,281 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Kuchupuchu ❤️</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#fff0f5,#ffd6e5);
+  color:#421827;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #fff0f6, #ffd6e5);
-    color: #421827;
-    overflow: hidden;
+.s{display:none;width:100%}
+.s.on{display:flex;justify-content:center}
+
+.card{
+  width:min(90%,430px);
+  background:white;
+  border-radius:28px;
+  padding:35px 22px;
+  text-align:center;
+  box-shadow:0 20px 50px #d98ba655;
 }
 
-.screen {
-    display: none;
-    min-height: 100vh;
-    padding: 20px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.heart{
+  font-size:65px;
+  margin-bottom:10px;
 }
 
-.screen.active {
-    display: flex;
+h1{
+  font-size:27px;
+  margin:15px 0 25px;
 }
 
-.card {
-    width: min(430px, 100%);
-    background: rgba(255,255,255,0.97);
-    border-radius: 28px;
-    padding: 30px 22px;
-    box-shadow: 0 18px 50px rgba(139,35,64,0.20);
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  position:relative;
+  min-height:60px;
 }
 
-.heart {
-    font-size: 58px;
-    margin-bottom: 5px;
+.btn{
+  border:0;
+  border-radius:30px;
+  padding:15px 28px;
+  background:#ed1760;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-h1 {
-    font-size: 28px;
-    margin: 10px 0 16px;
+.no{
+  background:#555;
+  position:relative;
 }
 
-.sub {
-    line-height: 1.5;
-    color: #75495a;
-    margin-bottom: 24px;
+textarea{
+  width:100%;
+  height:115px;
+  border:2px solid #ed1760;
+  border-radius:18px;
+  padding:16px;
+  font-size:16px;
+  resize:none;
+  outline:none;
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+.answer{
+  display:none;
+  color:#ed1760;
+  font-size:24px;
+  font-weight:bold;
+  margin:18px 0;
 }
 
-.btn {
-    border: none;
-    border-radius: 999px;
-    padding: 14px 24px;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.15s;
+.sub{
+  margin-top:18px;
+  color:#a66;
+  font-size:13px;
 }
 
-.btn:active {
-    transform: scale(0.93);
+.face{
+  width:220px;
+  max-width:80%;
+  border-radius:20px;
+  margin:10px auto 20px;
+  display:block;
 }
 
-.yes {
-    background: #e91e63;
-    color: white;
+.kiss{
+  position:fixed;
+  font-size:35px;
+  pointer-events:none;
+  animation:pop .5s ease;
 }
 
-.no {
-    background: #f1d9e2;
-    color: #572537;
+@keyframes pop{
+  from{transform:scale(0);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-.run {
-    position: fixed !important;
-    z-index: 100;
+.secret{
+  display:none;
+  margin-top:25px;
+  padding:20px;
+  border-radius:20px;
+  background:#fff1f6;
+  font-size:17px;
+  line-height:1.6;
 }
 
-textarea {
-    width: 100%;
-    height: 120px;
-    resize: none;
-    border: 2px solid #efbfd0;
-    border-radius: 16px;
-    padding: 14px;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    outline: none;
-}
-
-textarea:focus {
-    border-color: #e91e63;
-}
-
-.liveAnswer {
-    margin-top: 15px;
-    min-height: 34px;
-    font-size: 25px;
-    font-weight: bold;
-    color: #e91e63;
-}
-
-.faceArea {
-    position: relative;
-    width: 220px;
-    height: 220px;
-    margin: 0 auto 18px;
-}
-
-.face {
-    width: 220px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 7px solid white;
-    box-shadow: 0 10px 30px rgba(132,34,60,0.25);
-}
-
-.kissMark {
-    position: absolute;
-    font-size: 32px;
-    pointer-events: none;
-    animation: pop 0.25s ease-out;
-    transform: rotate(
-        calc(-15deg + 30deg * var(--rotation))
-    );
-}
-
-@keyframes pop {
-    0% {
-        transform: scale(0);
-    }
-
-    70% {
-        transform: scale(1.25);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-.tapCount {
-    margin-top: 15px;
-    color: #986577;
-    font-size: 14px;
-}
-
-.secretButton {
-    display: none;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.letter {
-    display: none;
-    text-align: left;
-    margin-top: 20px;
-    padding: 20px;
-    background: #fff5b8;
-    border-radius: 18px;
-    line-height: 1.65;
-    box-shadow: inset 0 0 0 1px rgba(150,100,0,0.1);
-}
-
-.letterTitle {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.small {
-    font-size: 13px;
-    color: #986577;
-    margin-top: 18px;
+@media(max-width:500px){
+  h1{font-size:23px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- PAGE 1 -->
+<section class="s on" id="s0">
+<div class="card">
+<div class="heart">💖</div>
+<h1>Kuchupuchu, do you love me? 🥺</h1>
 
-<!-- SCREEN 0 -->
-<section class="screen active" id="screen0">
-
-    <div class="card">
-
-        <div class="heart">🥺</div>
-
-        <h1>Kuchupuchu ❤️<br>Are you ready?</h1>
-
-        <div class="sub">
-            Ek chhota sa important sawaal hai... 😌
-        </div>
-
-        <div class="buttons">
-
-            <button
-                class="btn yes"
-                onclick="nextScreen(1)">
-                YES ❤️
-            </button>
-
-            <button
-                class="btn no"
-                id="readyNo"
-                onclick="runButton('readyNo')">
-                NO 😒
-            </button>
-
-        </div>
-
-    </div>
-
+<div class="buttons">
+<button class="btn" onclick="go(1)">YES ❤️</button>
+<button class="btn no" id="no1" onclick="runNo(1)">NO 😏</button>
+</div>
+</div>
 </section>
 
 
-<!-- SCREEN 1 -->
-<section class="screen" id="screen1">
+<!-- PAGE 2 -->
+<section class="s" id="s1">
+<div class="card">
+<div class="heart">😌</div>
+<h1>Kuchupuchu, aap ghussa ho?</h1>
 
-    <div class="card">
-
-        <div class="heart">🥺</div>
-
-        <h1>
-            Kuchupuchu,<br>
-            do you love me? ❤️
-        </h1>
-
-        <div class="buttons">
-
-            <button
-                class="btn yes"
-                onclick="nextScreen(2)">
-                YES ❤️
-            </button>
-
-            <button
-                class="btn no"
-                id="loveNo"
-                onclick="runButton('loveNo')">
-                NO 😒
-            </button>
-
-        </div>
-
-        <div class="small">
-            NO button thoda ziddi hai 😂
-        </div>
-
-    </div>
-
+<div class="buttons">
+<button class="btn" id="yes2" onclick="go(2)">YES 😤</button>
+<button class="btn" onclick="go(2)">NO 😇</button>
+</div>
+</div>
 </section>
 
 
-<!-- SCREEN 2 -->
-<section class="screen" id="screen2">
+<!-- PAGE 3 -->
+<section class="s" id="s2">
+<div class="card">
+<div class="heart">💗</div>
 
-    <div class="card">
+<h1>Kuchupuchu, aap mujhse kitna pyaar karte ho? ❤️</h1>
 
-        <div class="heart">😏</div>
+<textarea
+id="loveInput"
+placeholder="Yahan apna answer likho..."
+oninput="showLoveAnswer()"></textarea>
 
-        <h1>
-            Kuchupuchu,<br>
-            aap ghussa ho? 😤
-        </h1>
+<div id="loveAnswer" class="answer">
+Sabse zyada! ❤️
+</div>
 
-        <div class="buttons">
+<button class="btn" onclick="go(3)">
+Aage chalo 💕
+</button>
 
-            <button
-                class="btn yes"
-                id="angryYes"
-                onclick="runButton('angryYes')">
-                YES 😤
-            </button>
-
-            <button
-                class="btn no"
-                onclick="nextScreen(3)">
-                NO 😇
-            </button>
-
-        </div>
-
-    </div>
-
+<div class="sub">
+Kuch bhi likho... answer toh mujhe pata hai 😌
+</div>
+</div>
 </section>
 
 
-<!-- SCREEN 3 -->
-<section class="screen" id="screen3">
+<!-- PAGE 4 -->
+<section class="s" id="s3">
+<div class="card">
 
-    <div class="card">
+<div class="heart">🥺</div>
 
-        <div class="heart">💘</div>
+<h1>
+Kuchupuchu, aap mujhpar ghussa ho toh ghussa utarlo ❤️
+</h1>
 
-        <h1>
-            Kuchupuchu,<br>
-            aap mujhse kitna pyaar karte ho? ❤️
-        </h1>
+<img src="praveen.png" class="face">
 
-        <textarea
-            id="loveText"
-            placeholder="Yahan kuch bhi likho...">
-        </textarea>
+<div class="buttons">
+<button class="btn" onclick="action('kiss')">
+💋 Kiss
+</button>
 
-        <div
-            class="liveAnswer"
-            id="liveAnswer">
-        </div>
+<button class="btn" onclick="action('slap')">
+👋 Slap
+</button>
+</div>
 
-        <div class="small">
-            Kuch bhi likho... answer toh mujhe pata hai 😌
-        </div>
+<div id="secret" class="secret">
+💌 <b>Secret Letter</b><br><br>
 
-    </div>
+I'm sorry, I really can't recall what mistake I've done
+and I'm also sure I've done something! 😭
 
-</section>
+Sorry for irritating and making you always angry!
 
+And I also admit my quantity of time is available,
+but quality time is missing.
 
-<!-- SCREEN 4 -->
-<section class="screen" id="screen4">
+I will work on it. ❤️
 
-    <div class="card">
+Thank you for staying with me!
 
-        <div class="faceArea" id="faceArea">
+<b>I love you Kuchupuchu ❤️</b>
+</div>
 
-            <img
-                class="face"
-                src="praveen.png"
-                alt="Praveen">
-
-        </div>
-
-        <h1>
-            Kuchupuchu aap mujhpe ghussa ho<br>
-            toh ghussa utarlo 😭
-        </h1>
-
-        <div class="sub">
-            Jo mann kare karo... 😭😂
-        </div>
-
-        <div class="buttons">
-
-            <button
-                class="btn yes"
-                onclick="tapFace('kiss')">
-                💋 Kiss
-            </button>
-
-            <button
-                class="btn no"
-                onclick="tapFace('slap')">
-                👋 Slap
-            </button>
-
-        </div>
-
-        <div
-            class="tapCount"
-            id="tapCount">
-            Abhi tak 0 baar maara/pyaar kiya 😭
-        </div>
-
-        <button
-            class="btn yes secretButton"
-            id="secretButton"
-            onclick="openLetter()">
-            💌 Open Secret Letter
-        </button>
-
-        <div
-            class="letter"
-            id="letter">
-
-            <div class="letterTitle">
-                💌 For My Kuchupuchu
-            </div>
-
-            I'm sorry. ❤️
-
-            <br><br>
-
-            I really can't recall what mistake I've done,
-            and I'm also sure I've done something! 😭
-
-            <br><br>
-
-            Sorry for irritating you and making you always angry.
-
-            <br><br>
-
-            I also admit that my quantity of time is available,
-            but quality time is missing. I know that,
-            and I will genuinely work on it.
-
-            <br><br>
-
-            Thank you for staying with me,
-            tolerating me,
-            and still being my Kuchupuchu. ❤️
-
-            <br><br>
-
-            I love you, Kuchupuchu. ❤️
-
-            <br><br>
-
-            <strong>
-                — Praveen
-            </strong>
-
-        </div>
-
-    </div>
-
+</div>
 </section>
 
 
 <script>
 
-let taps = 0;
+function go(n){
+  document.querySelectorAll(".s").forEach(function(x){
+    x.classList.remove("on");
+  });
 
-
-/* SCREEN CHANGE */
-
-function nextScreen(number) {
-
-    document
-        .querySelectorAll(".screen")
-        .forEach(function(screen) {
-            screen.classList.remove("active");
-        });
-
-    document
-        .getElementById("screen" + number)
-        .classList.add("active");
-
+  document.getElementById("s"+n).classList.add("on");
 }
 
 
-/* RUNNING BUTTON */
-
-function runButton(buttonId) {
-
-    const button =
-        document.getElementById(buttonId);
-
-    button.classList.add("run");
-
-    const maxX =
-        window.innerWidth -
-        button.offsetWidth -
-        20;
-
-    const maxY =
-        window.innerHeight -
-        button.offsetHeight -
-        20;
-
-    const x =
-        Math.max(
-            10,
-            Math.random() * maxX
-        );
-
-    const y =
-        Math.max(
-            10,
-            Math.random() * maxY
-        );
-
-    button.style.left = x + "px";
-    button.style.top = y + "px";
+function showLoveAnswer(){
+  document.getElementById("loveAnswer").style.display="block";
 }
 
 
-/* LIVE LOVE ANSWER */
+function runNo(){
+  const b=document.getElementById("no1");
 
-const loveText =
-    document.getElementById("loveText");
-
-const liveAnswer =
-    document.getElementById("liveAnswer");
-
-loveText.addEventListener("input", function() {
-
-    if (loveText.value.trim().length > 0) {
-
-        liveAnswer.textContent =
-            "Sabse zyada! ❤️";
-
-    } else {
-
-        liveAnswer.textContent = "";
-
-    }
-
-});
-
-
-/* KISS / SLAP */
-
-function tapFace(type) {
-
-    taps++;
-
-    const faceArea =
-        document.getElementById("faceArea");
-
-    const mark =
-        document.createElement("div");
-
-    mark.className = "kissMark";
-
-    mark.textContent =
-        type === "kiss" ? "💋" : "💋";
-
-    mark.style.left =
-        (25 + Math.random() * 145) + "px";
-
-    mark.style.top =
-        (20 + Math.random() * 150) + "px";
-
-    mark.style.setProperty(
-        "--rotation",
-        Math.random()
-    );
-
-    faceArea.appendChild(mark);
-
-
-    document.getElementById("tapCount").textContent =
-        "Abhi tak " + taps +
-        " baar maara/pyaar kiya 😭";
-
-
-    if (taps >= 5) {
-
-        document
-            .getElementById("secretButton")
-            .style.display = "block";
-
-    }
-
+  b.style.position="fixed";
+  b.style.left=(10+Math.random()*75)+"vw";
+  b.style.top=(10+Math.random()*75)+"vh";
 }
 
 
-/* SECRET LETTER */
+let taps=0;
 
-function openLetter() {
+function action(type){
 
-    const letter =
-        document.getElementById("letter");
+  taps++;
 
-    letter.style.display = "block";
+  const mark=document.createElement("div");
 
-    document
-        .getElementById("secretButton")
-        .style.display = "none";
+  mark.className="kiss";
+  mark.innerHTML= type==="kiss" ? "💋" : "💋";
 
-    setTimeout(function() {
+  mark.style.left=(25+Math.random()*50)+"vw";
+  mark.style.top=(25+Math.random()*50)+"vh";
 
-        letter.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
+  document.body.appendChild(mark);
 
-    }, 100);
+  setTimeout(()=>{
+    mark.remove();
+  },2500);
 
+  if(taps>=4){
+    document.getElementById("secret").style.display="block";
+  }
 }
 
 </script>
