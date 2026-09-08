@@ -1,16 +1,465 @@
-<!doctype html><html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kuchupuchu ❤️</title>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kuchupuchu ❤️</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff0f6,#ffdce8);color:#421827;overflow:hidden}.s{display:none;min-height:100vh;padding:20px;align-items:center;justify-content:center;text-align:center}.s.on{display:flex}.card{width:min(430px,100%);background:#fffffff2;border-radius:28px;padding:28px 20px;box-shadow:0 18px 50px #8b234033}h1{font-size:29px;margin:10px 0 15px}.sub{line-height:1.5;color:#75495a;margin-bottom:24px}.heart{font-size:55px}.buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.btn{border:0;border-radius:999px;padding:14px 23px;font-size:17px;font-weight:800;cursor:pointer}.yes{background:#e91e63;color:#fff}.no{background:#f1d9e2;color:#572537}.run{position:fixed;z-index:5}textarea{width:100%;height:115px;border:2px solid #efbfd0;border-radius:16px;padding:14px;font-size:16px}.ans{font-size:23px;font-weight:900;color:#e91e63;margin-top:15px;min-height:30px}.face{width:190px;height:190px;object-fit:cover;border-radius:50%;border:7px solid white;box-shadow:0 10px 30px #84223c33}.secret{display:none;margin-top:20px;background:#fff2a2;padding:17px;border-radius:18px;line-height:1.55;font-weight:700}.small{font-size:13px;color:#986577;margin-top:16px}.lang{display:flex;gap:10px}.lang .btn{flex:1}</style></head><body>
-<section class="s on" id="s0"><div class="card"><div class="heart">💗</div><h1>Kuchupuchu ❤️</h1><div class="sub">Pehle language choose karo… warna Praveen complaint karega 😌</div><div class="lang"><button class="btn yes" onclick="setL('hi')">हिन्दी 🇮🇳</button><button class="btn no" onclick="setL('en')">Hinglish 😎</button></div></div></section>
-<section class="s" id="s1"><div class="card"><div class="heart">🥺</div><h1 id="q1"></h1><div class="buttons"><button class="btn yes" onclick="go(2)">YES ❤️</button><button class="btn no" id="n1" onclick="escapeBtn('n1')">NO 😒</button></div><div class="small">NO button thoda ziddi hai 😂</div></div></section>
-<section class="s" id="s2"><div class="card"><div class="heart">😏</div><h1 id="q2"></h1><div class="buttons"><button class="btn yes" id="y2" onclick="escapeBtn('y2')">YES 😤</button><button class="btn no" onclick="go(3)">NO 😇</button></div></div></section>
-<section class="s" id="s3"><div class="card"><div class="heart">💘</div><h1 id="q3"></h1><textarea id="txt"></textarea><button class="btn yes" style="margin-top:14px" onclick="answer()">Submit ❤️</button><div class="ans" id="ans"></div></div></section>
-<section class="s" id="s4"><div class="card"><img class="face" src="assets/praveen.png"><h1 id="q4"></h1><div class="sub">Ab faisla aapke haath mein hai…</div><div class="buttons"><button class="btn yes" onclick="finish()">💋 Kiss</button><button class="btn no" onclick="finish()">👋 Slap</button></div><div class="secret" id="secret"></div></div></section>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fff0f6, #ffdce8);
+    color: #421827;
+    overflow: hidden;
+}
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.card {
+    width: min(430px, 100%);
+    background: rgba(255,255,255,0.96);
+    border-radius: 28px;
+    padding: 30px 22px;
+    box-shadow: 0 18px 50px rgba(139,35,64,0.2);
+}
+
+.heart {
+    font-size: 58px;
+    margin-bottom: 5px;
+}
+
+h1 {
+    font-size: 28px;
+    margin: 10px 0 16px;
+}
+
+.sub {
+    line-height: 1.5;
+    color: #75495a;
+    margin-bottom: 24px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: none;
+    border-radius: 999px;
+    padding: 14px 24px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.btn:active {
+    transform: scale(0.94);
+}
+
+.yes {
+    background: #e91e63;
+    color: white;
+}
+
+.no {
+    background: #f1d9e2;
+    color: #572537;
+}
+
+.run {
+    position: fixed !important;
+    z-index: 100;
+}
+
+.small {
+    font-size: 13px;
+    color: #986577;
+    margin-top: 18px;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    resize: none;
+    border: 2px solid #efbfd0;
+    border-radius: 16px;
+    padding: 14px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #e91e63;
+}
+
+.answer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e91e63;
+    margin-top: 16px;
+    min-height: 30px;
+}
+
+.face {
+    width: 190px;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 7px solid white;
+    box-shadow: 0 10px 30px rgba(132,34,60,0.2);
+}
+
+.secret {
+    display: none;
+    margin-top: 22px;
+    background: #fff2a2;
+    padding: 18px;
+    border-radius: 18px;
+    line-height: 1.55;
+    font-weight: bold;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.language-buttons .btn {
+    flex: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LANGUAGE -->
+<section class="screen active" id="screen0">
+
+    <div class="card">
+
+        <div class="heart">💗</div>
+
+        <h1>Kuchupuchu ❤️</h1>
+
+        <div class="sub">
+            Pehle language choose karo…<br>
+            warna Praveen complaint karega 😌
+        </div>
+
+        <div class="language-buttons">
+
+            <button class="btn yes" onclick="chooseLanguage('hi')">
+                हिन्दी 🇮🇳
+            </button>
+
+            <button class="btn no" onclick="chooseLanguage('hinglish')">
+                Hinglish 😎
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUESTION 1 -->
+<section class="screen" id="screen1">
+
+    <div class="card">
+
+        <div class="heart">🥺</div>
+
+        <h1 id="question1"></h1>
+
+        <div class="buttons">
+
+            <button class="btn yes" onclick="nextScreen(2)">
+                YES ❤️
+            </button>
+
+            <button
+                class="btn no"
+                id="noButton"
+                onclick="runButton('noButton')">
+                NO 😒
+            </button>
+
+        </div>
+
+        <div class="small">
+            NO button thoda ziddi hai 😂
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUESTION 2 -->
+<section class="screen" id="screen2">
+
+    <div class="card">
+
+        <div class="heart">😏</div>
+
+        <h1 id="question2"></h1>
+
+        <div class="buttons">
+
+            <button
+                class="btn yes"
+                id="yesButton"
+                onclick="runButton('yesButton')">
+                YES 😤
+            </button>
+
+            <button
+                class="btn no"
+                onclick="nextScreen(3)">
+                NO 😇
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUESTION 3 -->
+<section class="screen" id="screen3">
+
+    <div class="card">
+
+        <div class="heart">💘</div>
+
+        <h1 id="question3"></h1>
+
+        <textarea
+            id="loveText"
+            placeholder="Yahan apna answer likho...">
+        </textarea>
+
+        <button
+            class="btn yes"
+            style="margin-top:14px"
+            onclick="submitLove()">
+            Submit ❤️
+        </button>
+
+        <div
+            class="answer"
+            id="loveAnswer">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FINAL -->
+<section class="screen" id="screen4">
+
+    <div class="card">
+
+        <img
+            class="face"
+            src="praveen.png"
+            alt="Praveen">
+
+        <h1 id="question4"></h1>
+
+        <div class="sub">
+            Ab faisla aapke haath mein hai… 😭
+        </div>
+
+        <div class="buttons">
+
+            <button
+                class="btn yes"
+                onclick="finish()">
+                💋 Kiss
+            </button>
+
+            <button
+                class="btn no"
+                onclick="finish()">
+                👋 Slap
+            </button>
+
+        </div>
+
+        <div
+            class="secret"
+            id="secretMessage">
+        </div>
+
+    </div>
+
+</section>
+
+
 <script>
-let L='en';const $=x=>document.getElementById(x);
-function setL(x){L=x; $('q1').textContent=L==='hi'?'कुचुपुचु, क्या आप मुझसे प्यार करते हो?':'Kuchupuchu, do you love me?';$('q2').textContent=L==='hi'?'कुचुपुचु, क्या आप मुझसे गुस्सा हो?':'Kuchupuchu, aap ghussa ho?';$('q3').textContent=L==='hi'?'कुचुपुचु, आप मुझसे कितना प्यार करते हो?':'Kuchupuchu, aap mujhse kitna pyaar karte ho?';$('q4').textContent=L==='hi'?'कुचुपुचु, आप मुझपे गुस्सा हो तो गुस्सा उतार लो 😭':'Kuchupuchu aap mujhpe ghussa ho toh ghussa utarlo 😭';$('txt').placeholder=L==='hi'?'यहाँ अपना जवाब लिखो…':'Yahan apna answer likho…';go(1)}
-function go(n){document.querySelectorAll('.s').forEach(x=>x.classList.remove('on'));$('s'+n).classList.add('on')}
-function escapeBtn(id){let b=$(id);b.classList.add('run');b.style.left=(8+Math.random()*75)+'vw';b.style.top=(12+Math.random()*75)+'vh'}
-function answer(){$('ans').textContent=L==='hi'?'सबसे ज़्यादा! ❤️':'Sabse zyada! ❤️';setTimeout(()=>go(4),1000)}
-function finish(){$('secret').style.display='block';$('secret').textContent=L==='hi'?'मुझे सच में याद नहीं कि मैंने क्या गलती की है… और मुझे पूरा यकीन है कि कुछ न कुछ गलती मैंने की ही है 😭 Sorry. तुम्हें irritate करने और हमेशा गुस्सा दिलाने के लिए sorry. मैं मानता हूँ कि मेरे पास quantity of time है, लेकिन quality time missing है — इस पर सच में काम करूँगा. मेरे साथ रहने के लिए thank you. I love you, Kuchupuchu ❤️':'I’m sorry, I really can’t recall what mistake I’ve done and I’m also sure I’ve done something! 😭 Sorry for irritating you and making you angry. I also admit my quantity of time is available but quality time is missing — I’ll work on it. Thank you for staying with me! I love you, Kuchupuchu ❤️'}
-</script></body></html>
+
+let language = "hinglish";
+
+
+function chooseLanguage(selectedLanguage) {
+
+    language = selectedLanguage;
+
+    if (language === "hi") {
+
+        document.getElementById("question1").textContent =
+            "कुचुपुचु, क्या आप मुझसे प्यार करते हो?";
+
+        document.getElementById("question2").textContent =
+            "कुचुपुचु, क्या आप मुझसे गुस्सा हो?";
+
+        document.getElementById("question3").textContent =
+            "कुचुपुचु, आप मुझसे कितना प्यार करते हो?";
+
+        document.getElementById("question4").textContent =
+            "कुचुपुचु, आप मुझपे गुस्सा हो तो गुस्सा उतार लो 😭";
+
+        document.getElementById("loveText").placeholder =
+            "यहाँ अपना जवाब लिखो…";
+
+    } else {
+
+        document.getElementById("question1").textContent =
+            "Kuchupuchu, do you love me? ❤️";
+
+        document.getElementById("question2").textContent =
+            "Kuchupuchu, aap ghussa ho? 😤";
+
+        document.getElementById("question3").textContent =
+            "Kuchupuchu, aap mujhse kitna pyaar karte ho? ❤️";
+
+        document.getElementById("question4").textContent =
+            "Kuchupuchu aap mujhpe ghussa ho toh ghussa utarlo 😭";
+
+        document.getElementById("loveText").placeholder =
+            "Yahan apna answer likho…";
+    }
+
+    nextScreen(1);
+}
+
+
+function nextScreen(number) {
+
+    document
+        .querySelectorAll(".screen")
+        .forEach(function(screen) {
+            screen.classList.remove("active");
+        });
+
+    document
+        .getElementById("screen" + number)
+        .classList.add("active");
+
+}
+
+
+function runButton(buttonId) {
+
+    const button = document.getElementById(buttonId);
+
+    button.classList.add("run");
+
+    const maxX = window.innerWidth - button.offsetWidth - 20;
+    const maxY = window.innerHeight - button.offsetHeight - 20;
+
+    const randomX = Math.max(
+        10,
+        Math.random() * maxX
+    );
+
+    const randomY = Math.max(
+        10,
+        Math.random() * maxY
+    );
+
+    button.style.left = randomX + "px";
+    button.style.top = randomY + "px";
+}
+
+
+function submitLove() {
+
+    const answerBox =
+        document.getElementById("loveAnswer");
+
+    if (language === "hi") {
+
+        answerBox.textContent =
+            "सबसे ज़्यादा! ❤️";
+
+    } else {
+
+        answerBox.textContent =
+            "Sabse zyada! ❤️";
+
+    }
+
+    setTimeout(function() {
+
+        nextScreen(4);
+
+    }, 1500);
+
+}
+
+
+function finish() {
+
+    const message =
+        document.getElementById("secretMessage");
+
+    message.style.display = "block";
+
+    if (language === "hi") {
+
+        message.textContent =
+            "मुझे सच में याद नहीं कि मैंने क्या गलती की है… और मुझे पूरा यकीन है कि कुछ न कुछ गलती मैंने की ही है 😭 Sorry. तुम्हें irritate करने और हमेशा गुस्सा दिलाने के लिए sorry. मैं मानता हूँ कि मेरे पास quantity of time है, लेकिन quality time missing है — इस पर सच में काम करूँगा. मेरे साथ रहने के लिए thank you. I love you, Kuchupuchu ❤️";
+
+    } else {
+
+        message.textContent =
+            "I'm sorry, I really can't recall what mistake I've done and I'm also sure I've done something! 😭 Sorry for irritating you and making you always angry! I also admit my quantity of time is available but quality time is missing — I will work on it. Thank you for staying with me! I love you, Kuchupuchu ❤️";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
